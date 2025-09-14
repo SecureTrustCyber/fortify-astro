@@ -1,6 +1,6 @@
 {
   "site": {
-    "title": "Fortify",
+    "title": "SecureTrustCyber",
     "base_url": "https://fortify-astro.vercel.app",
     "base_path": "/",
     "trailing_slash": true,
@@ -8,7 +8,7 @@
     "logo": "/images/logo.svg",
     "logo_width": "134",
     "logo_height": "47",
-    "logo_text": "Fortify"
+    "logo_text": "SecureTrustCyber"
   },
 
   "settings": {
@@ -20,7 +20,7 @@
   "params": {
     "contact_form_action": "#",
     "footer_description": "Securing Your Digital World: Your Trusted Partner in Data Protection with Cutting Edge Solutions for Data Security.",
-    "copyright": "Copyright © {year} Fortify. All Rights Reserved"
+    "copyright": "Copyright © {year} SecureTrustCyber. All Rights Reserved"
   },
 
   "subscription": {
