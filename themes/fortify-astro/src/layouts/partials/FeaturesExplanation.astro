@@ -1,0 +1,98 @@
+---
+import ImageMod from "@/components/ImageMod.astro";
+import { markdownify } from "@/lib/utils/textConverter";
+import type { CollectionEntry } from "astro:content";
+import { getEntry } from "astro:content";
+
+const { hideHeadingBar } = Astro.props;
+
+const { title, image, subtitle, description, list } = (
+  (await getEntry(
+    "featuresExplanationSection",
+    "features-explanation"
+  )) as CollectionEntry<"featuresExplanationSection">
+).data;
+---
+
+<section class="section">
+  <div class="container">
+    <div class="row">
+      {
+        !hideHeadingBar && (
+          <div
+            class="mx-auto text-center lg:col-10 xl:col-7"
+            data-aos="fade-up-sm">
+            {subtitle && (
+              <p
+                class="mb-2 font-medium text-tertiary"
+                set:html={markdownify(subtitle)}
+              />
+            )}
+            {title && <h2 class="mb-6" set:html={markdownify(title)} />}
+            {description && (
+              <p
+                class="text-lg/[inherit]"
+                set:html={markdownify(description)}
+              />
+            )}
+          </div>
+        )
+      }
+      <div class="col-12 pt-20">
+        <div
+          class="relative flex justify-center gap-3 max-xl:flex-wrap xl:mb-12 xl:mt-16 xl:flex-col xl:items-center xl:gap-y-8">
+          {/* Features List */}
+          {
+            list?.map((item, mindex) => (
+              <div
+                class={`order-2 flex gap-x-3 xl:order-0 max-xl:justify-center xl:items-center ${mindex < 1 ? "flex-col max-xl:gap-y-3 md:w-[60%] xl:w-auto xl:flex-row" : "flex-col gap-y-3 sm:flex-row"}`}>
+                {/* Main Features List */}
+                {item.row.map((item, index) => (
+                  <div
+                    class={`${(index + 1) % 2 === 0 ? "xl:order-3" : "xl:order-1"} xl:max-w-[370px]`}>
+                    <div
+                      class="mb-12 min-h-full rounded-xl bg-light px-6 py-12 text-center last:mb-0 md:rounded-3xl"
+                      data-aos="fade-up-sm"
+                      data-aos-delay={index * 100}>
+                      {item.title && (
+                        <h3
+                          class="h6 mb-2"
+                          set:html={markdownify(item.title)}
+                        />
+                      )}
+                      {item.description && (
+                        <p set:html={markdownify(item.description)} />
+                      )}
+                    </div>
+                  </div>
+                ))}
+
+                {/* Separator */}
+                <div class="xl:order-2 max-xl:hidden">
+                  <ImageMod
+                    class="w-full"
+                    src={"/images/features/line.png"}
+                    alt="line svg"
+                  />
+                </div>
+              </div>
+            ))
+          }
+
+          {/* Product Image (In Mobile Frame) */}
+          {
+            image && (
+              <div class="order-1 w-[40%] xl:order-0 sm:w-[30%]">
+                <img
+                  class="mx-auto xl:absolute xl:left-1/2 xl:top-1/2 xl:w-[35%] xl:-translate-x-1/2 xl:-translate-y-1/2"
+                  src={image}
+                  alt={title}
+                />
+              </div>
+            )
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

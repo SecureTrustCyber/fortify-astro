@@ -1,0 +1,120 @@
+---
+import ImageMod from "@/components/ImageMod.astro";
+import DynamicIcon from "@/helpers/DynamicIcon";
+import { markdownify } from "@/lib/utils/textConverter";
+import type { CollectionEntry } from "astro:content";
+import { getEntry } from "astro:content";
+
+const { content, visible_testimonial, largeHeading } = Astro.props;
+
+const contentEntry = (
+  (await getEntry(
+    "testimonialSection",
+    "testimonial"
+  )) as CollectionEntry<"testimonialSection">
+).data;
+
+let { title, subtitle, description, list } = contentEntry;
+
+// Override default blog data (Title, Subtitle & Description) with props if provided
+if (content) {
+  ({ title, subtitle, description } = content);
+}
+
+if (visible_testimonial) {
+  list = list?.slice(0, visible_testimonial);
+}
+---
+
+<section class="section">
+  <div class="container">
+    <div class="row">
+      <div class="mx-auto text-center lg:col-8 xl:col-9" data-aos="fade-up-sm">
+        {
+          subtitle && (
+            <p
+              class="mb-2 font-medium text-tertiary"
+              set:html={markdownify(subtitle)}
+            />
+          )
+        }
+
+        {
+          title &&
+            (largeHeading ? (
+              <h1 class="h2 md:h1 mb-6" set:html={markdownify(title)} />
+            ) : (
+              <h2 class="mb-6" set:html={markdownify(title)} />
+            ))
+        }
+        {
+          description && (
+            <p class="text-lg/[inherit]" set:html={markdownify(description)} />
+          )
+        }
+      </div>
+      <div class="col-12 pt-20" data-aos="fade-up-sm" data-aos-delay="200">
+        <div class="row g-4 justify-center">
+          {
+            list?.map((item) => (
+              <div class="md:col-6 lg:col-4">
+                <div class="flex min-h-full flex-col justify-start gap-8 rounded-xl bg-light p-6 md:rounded-3xl">
+                  <div class="flex justify-start gap-x-2">
+                    <DynamicIcon
+                      icon="FaStar"
+                      className="text-yellow-500 text-2xl"
+                    />
+                    <DynamicIcon
+                      icon="FaStar"
+                      className="text-yellow-500 text-2xl"
+                    />
+                    <DynamicIcon
+                      icon="FaStar"
+                      className="text-yellow-500 text-2xl"
+                    />
+                    <DynamicIcon
+                      icon="FaStar"
+                      className="text-yellow-500 text-2xl"
+                    />
+                    <DynamicIcon
+                      icon="FaStar"
+                      className="text-yellow-500 text-2xl"
+                    />
+                  </div>
+                  {item.content && (
+                    <div
+                      class="content prose-strong:text-xl"
+                      set:html={markdownify(item.content, true)}
+                    />
+                  )}
+                  <div class="flex flex-col gap-4 sm:flex-row">
+                    {item.avatar && (
+                      <div class="flex h-16 w-16 items-center overflow-hidden rounded-full">
+                        <ImageMod
+                          class="h-full w-full object-cover"
+                          src={item.avatar}
+                          alt={`avatar of the ${item.name}`}
+                        />
+                      </div>
+                    )}
+                    <div>
+                      {item.name && (
+                        <strong
+                          class="mb-2 text-lg/[inherit] font-medium"
+                          set:html={markdownify(item.name)}
+                        />
+                      )}
+                      {item.designation && (
+                        <p set:html={markdownify(item.designation)} />
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,59 @@
+---
+import ImageMod from "@/components/ImageMod.astro";
+import { markdownify } from "@/lib/utils/textConverter";
+import type { CollectionEntry } from "astro:content";
+import { getEntry } from "astro:content";
+
+const { title, subtitle, description, list } = (
+  (await getEntry(
+    "ourTeamSection",
+    "our-team"
+  )) as CollectionEntry<"ourTeamSection">
+).data;
+---
+
+<section class="section">
+  <div class="container">
+    <div class="row">
+      <div class="mx-auto text-center lg:col-10" data-aos="fade-up-sm">
+        {
+          subtitle && (
+            <p
+              class="mb-2 font-medium text-tertiary"
+              set:html={markdownify(subtitle)}
+            />
+          )
+        }
+        {title && <h2 class="mb-6" set:html={markdownify(title)} />}
+        {
+          description && (
+            <p class="text-lg/[inherit]" set:html={markdownify(description)} />
+          )
+        }
+      </div>
+      <div class="col-12 pt-20" data-aos="fade-up-sm" data-aos-delay="200">
+        <div class="row g-4 justify-center">
+          {
+            list?.map((item) => (
+              <div class="col-6 lg:col-3">
+                {item.image && (
+                  <div class="mb-6 overflow-hidden rounded-xl bg-light text-center md:rounded-3xl">
+                    <ImageMod
+                      class="w-full"
+                      src={item.image}
+                      alt={`photo of ${item.name}`}
+                    />
+                  </div>
+                )}
+                {item.name && (
+                  <h3 class="h6 mb-1.5" set:html={markdownify(item.name)} />
+                )}
+                {item.company && <p set:html={markdownify(item.company)} />}
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

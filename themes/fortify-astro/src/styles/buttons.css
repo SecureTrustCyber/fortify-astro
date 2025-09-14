@@ -1,0 +1,100 @@
+.btn {
+  @apply inline-flex cursor-pointer flex-nowrap items-center gap-2 gap-x-4 overflow-hidden rounded-full border border-transparent py-1.5 ps-8 pe-2 text-base font-medium whitespace-nowrap capitalize transition duration-300 md:text-lg/[inherit];
+
+  @apply [&:hover_.icon-wrapper_.icon]:translate-x-full!;
+  @apply [&:hover_.icon-wrapper_.icon:first-child]:opacity-100;
+  @apply [&:hover_.icon-wrapper_.icon:last-child]:opacity-0;
+}
+&:hover .icon:last-child {
+  @apply transition-[opacity,transform] duration-[0.6s] ease-in-out;
+}
+
+.icon-wrapper {
+  @apply flex h-12 w-12 justify-end overflow-hidden rounded-full transition-all duration-300;
+  .icon {
+    @apply text-text-dark flex h-12 min-w-12 items-center justify-center gap-x-0 align-middle transition-all;
+    transition-duration: 0.4s;
+
+    svg {
+      @apply h-5 w-5;
+    }
+
+    &:first-child {
+      @apply translate-x-1/2 opacity-0;
+    }
+  }
+}
+
+.btn-regular {
+  @apply bg-text-dark text-text-light hover:bg-tertiary px-10 py-4 text-base font-normal;
+}
+
+.btn-icon {
+  @apply h-14 w-8 items-center justify-center p-0!;
+  @apply [&_.icon-wrapper]:gap-x-4 [&:hover_.icon-wrapper]:gap-x-0;
+
+  .icon-wrapper,
+  .icon {
+    @apply w-full;
+  }
+  .icon {
+    @apply min-w-full!;
+  }
+}
+
+.btn-text {
+  @apply gap-x-2 bg-transparent p-0;
+
+  &:hover {
+    @apply text-tertiary [&_svg]:text-tertiary;
+    .icon-wrapper {
+      @apply gap-x-0;
+    }
+  }
+  .icon-wrapper {
+    @apply h-6 w-6 gap-x-3;
+  }
+  .icon {
+    @apply h-6 w-6 min-w-6!;
+    svg {
+      @apply h-4 w-4!;
+    }
+  }
+}
+
+.btn-primary,
+.btn-outline-primary {
+  @apply ps-8 pe-2;
+}
+.btn-light,
+.btn-dark {
+  .icon-wrapper,
+  .icon {
+    @apply w-8;
+  }
+}
+
+.btn-sm {
+  @apply rounded-sm px-4 py-1.5 text-sm;
+}
+
+.btn-primary {
+  @apply border-primary bg-primary hover:border-secondary hover:bg-secondary hover:text-text-dark text-white;
+  @apply [&:hover_.icon-wrapper]:bg-text-dark [&:hover_svg]:text-text-light [&_.icon-wrapper]:bg-secondary [&_svg]:text-text-dark;
+}
+.btn-primary-light {
+  @apply border-light bg-light text-text-dark hover:border-secondary hover:bg-secondary hover:text-text-dark;
+  @apply [&:hover_.icon-wrapper]:bg-text-dark [&:hover_svg]:text-text-light [&_.icon-wrapper]:bg-secondary [&_svg]:text-text-dark;
+}
+
+.btn-light {
+  @apply border-light bg-light text-text-dark hover:border-text-dark hover:bg-text-dark hover:text-text-light [&:hover_svg]:text-text-light [&_svg]:text-text-dark;
+}
+.btn-dark {
+  @apply border-text-dark bg-text-dark hover:border-tertiary hover:bg-tertiary [&_svg]:text-text-light text-white;
+}
+
+.btn-outline-primary {
+  @apply border-border text-text-dark hover:border-secondary hover:bg-secondary hover:text-text-dark bg-transparent bg-white;
+  @apply [&:hover_.icon-wrapper]:bg-text-dark [&:hover_svg]:text-text-light [&_.icon-wrapper]:bg-light [&_svg]:text-text-dark;
+}

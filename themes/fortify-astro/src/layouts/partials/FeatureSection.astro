@@ -1,0 +1,136 @@
+---
+import ImageMod from "@/components/ImageMod.astro";
+import DynamicIcon from "@/helpers/DynamicIcon";
+import { markdownify } from "@/lib/utils/textConverter";
+import type { CollectionEntry } from "astro:content";
+import { getEntry } from "astro:content";
+
+const { title, subtitle, description, list } = (
+  (await getEntry(
+    "featuresSection",
+    "features"
+  )) as CollectionEntry<"featuresSection">
+).data;
+---
+
+<section class="section">
+  <div class="container">
+    <div class="row">
+      <div class="mx-auto text-center lg:col-8" data-aos="fade-up-sm">
+        {
+          subtitle && (
+            <p
+              class="mb-2 font-medium text-tertiary"
+              set:html={markdownify(subtitle)}
+            />
+          )
+        }
+        {title && <h2 class="mb-6" set:html={markdownify(title)} />}
+        {
+          description && (
+            <p class="text-lg/[inherit]" set:html={markdownify(description)} />
+          )
+        }
+      </div>
+      <div class="col-12 pt-20">
+        {
+          list?.map((item, index) => (
+            <div
+              class={`row gx-0 gy-5 mb-14 items-center last:mb-0 md:mb-28 ${index % 2 !== 0 ? "max-lg:flex-col-reverse" : ""}`}>
+              <div
+                class={`${index % 2 === 0 ? "" : "md:order-2"} lg:col-6`}
+                data-aos="fade-up-sm"
+                data-aos-delay={100}>
+                <div
+                  class={`overflow-hidden rounded-3xl bg-light ${index % 2 === 0 ? "pl-14 pt-14" : "px-12 py-14"}`}>
+                  {item.image && (
+                    <ImageMod
+                      class="rounded-tl-3xl drop-shadow-lg"
+                      src={item.image}
+                      alt={`icon related to ${item.title}`}
+                    />
+                  )}
+                </div>
+              </div>
+              <div
+                class={`${index % 2 === 0 ? "lg:ps-20" : "lg:pe-20"} lg:col-6`}
+                data-aos="fade-up-sm"
+                data-aos-delay={300}>
+                {item.title && (
+                  <h3 class="h4 mb-4" set:html={markdownify(item.title)} />
+                )}
+                {item.description && (
+                  <p
+                    class="text-lg/[inherit]"
+                    set:html={markdownify(item.description)}
+                  />
+                )}
+
+                {item.bulletpoints_y && (
+                  <div class="mt-10 flex flex-col gap-10 sm:flex-row xl:mt-20">
+                    {item.bulletpoints_y.map((point) => (
+                      <div>
+                        {point.icon && (
+                          <div class="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-tertiary">
+                            <ImageMod
+                              class="h-6 w-6 object-cover"
+                              src={point.icon}
+                              alt={`icon related to ${point.title}`}
+                            />
+                          </div>
+                        )}
+                        {point.title && (
+                          <h3
+                            class="h6 mb-2 pt-3"
+                            set:html={markdownify(point.title)}
+                          />
+                        )}
+                        {point.description && (
+                          <p set:html={markdownify(point.description)} />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {item.bulletpoints_x && (
+                  <ul class="list list-dark mt-10 flex flex-col gap-4">
+                    {item.bulletpoints_x.map((point) => (
+                      <li>
+                        {point.title && (
+                          <h3
+                            class="h6 mb-2"
+                            set:html={markdownify(point.title)}
+                          />
+                        )}
+                        {point.description && (
+                          <p
+                            class="text-lg/[inherit]"
+                            set:html={markdownify(point.description)}
+                          />
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                {item.button && item.button.enable && (
+                  <a class="btn btn-primary mt-12" href={item.button.link}>
+                    {item.button.label}
+                    <span class="icon-wrapper">
+                      <span class="icon">
+                        <DynamicIcon icon={"FaArrowRight"} />
+                      </span>
+                      <span class="icon" aria-hidden="true">
+                        <DynamicIcon icon={"FaArrowRight"} />
+                      </span>
+                    </span>
+                  </a>
+                )}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

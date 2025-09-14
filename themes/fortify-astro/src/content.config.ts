@@ -1,0 +1,63 @@
+import {
+  about,
+  authors,
+  blog,
+  changelog,
+  contact,
+  features,
+  integration,
+  pages,
+  pricing,
+  review,
+} from "./types/pages.collections";
+import {
+  aboutBannerSection,
+  blogSection,
+  changelogSection,
+  clientsSection,
+  ctaSection,
+  faqSection,
+  featuresExplanationSection,
+  featuresGridSection,
+  featuresSection,
+  homeBannerSection,
+  howItWorksSection,
+  integrationSection,
+  ourTeamSection,
+  ourValuesSection,
+  pricingSection,
+  testimonialSection,
+} from "./types/sections.collections";
+
+// Export collections
+export const collections = {
+  // Pages
+  about,
+  authors,
+  blog,
+  changelog,
+  contact,
+  features,
+  integration,
+  pages,
+  pricing,
+  review,
+
+  // Sections
+  aboutBannerSection,
+  blogSection,
+  ctaSection,
+  changelogSection,
+  clientsSection,
+  faqSection,
+  featuresExplanationSection,
+  featuresGridSection,
+  featuresSection,
+  homeBannerSection,
+  howItWorksSection,
+  integrationSection,
+  ourTeamSection,
+  ourValuesSection,
+  pricingSection,
+  testimonialSection,
+};

@@ -1,0 +1,171 @@
+---
+import ImageMod from "@/components/ImageMod.astro";
+import config from "@/config/config.json";
+import { markdownify } from "@/lib/utils/textConverter";
+import type { CollectionEntry } from "astro:content";
+import { getEntry } from "astro:content";
+
+const { contact_form_action } = config.params;
+const { hero } = (
+  (await getEntry("contact", "-index")) as CollectionEntry<"contact">
+).data;
+---
+
+<section class="section">
+  <div class="container">
+    <div class="row">
+      <div class="lg:col-7 lg:pe-20 lg:pt-16" data-aos="fade-left-sm">
+        {
+          hero.subtitle && (
+            <p
+              class="mb-2 font-medium text-tertiary"
+              set:html={markdownify(hero.subtitle)}
+            />
+          )
+        }
+        {
+          hero.title && (
+            <h2 class="md:h1 mb-6" set:html={markdownify(hero.title)} />
+          )
+        }
+        {
+          hero.description && (
+            <p
+              class="text-lg/[inherit]"
+              set:html={markdownify(hero.description)}
+            />
+          )
+        }
+        {
+          hero.list && (
+            <div class="mt-10 flex flex-col gap-10 sm:flex-row xl:mt-20">
+              {hero.list.map((point) => (
+                <div>
+                  {point.icon && (
+                    <div class="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-tertiary">
+                      <ImageMod
+                        class="h-6 w-6 object-cover"
+                        src={point.icon}
+                        alt={`icon related to ${point.title}`}
+                      />
+                    </div>
+                  )}
+                  {point.title && (
+                    <h3
+                      class="h6 mb-2 mt-5"
+                      set:html={markdownify(point.title)}
+                    />
+                  )}
+                  {point.description && (
+                    <p
+                      class="text-lg/[inherit]"
+                      set:html={markdownify(point.description)}
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+          )
+        }
+      </div>
+      <div
+        class="relative pt-24 lg:col-5 lg:pt-16"
+        data-aos="fade-left-sm"
+        data-aos-delay="200">
+        <ImageMod
+          class="absolute left-1/2 top-5 -z-10 w-20 -translate-x-1/2 lg:-top-7"
+          src={"/images/logo-icon.svg"}
+          alt="hero image"
+          loading="eager"
+        />
+        <div class="rounded-2xl bg-light p-5 md:p-10">
+          <form class="row g-4" action={contact_form_action} method="POST">
+            <div class="lg:col-6">
+              <label for="name" class="form-label">
+                First Name <span class="text-red-500">*</span>
+              </label>
+              <input
+                id="name"
+                name="name"
+                class="form-input"
+                placeholder="Your First Name"
+                required
+                type="text"
+              />
+            </div>
+            <div class="lg:col-6">
+              <label for="name" class="form-label">
+                Last Name <span class="text-red-500">*</span>
+              </label>
+              <input
+                id="name"
+                name="name"
+                class="form-input"
+                placeholder="Your Last Name"
+                required
+                type="text"
+              />
+            </div>
+            <div class="col-12">
+              <label for="email" class="form-label">
+                Email <span class="text-red-500">*</span>
+              </label>
+              <input
+                id="email"
+                name="email"
+                class="form-input"
+                placeholder="youremail@email.com"
+                required
+                type="email"
+              />
+            </div>
+            <div class="col-12">
+              <label for="comapny-name" class="form-label">
+                Company Name <span class="text-red-500">*</span>
+              </label>
+              <input
+                id="comapny-name"
+                name="comapny-name"
+                class="form-input"
+                placeholder="Your Company Name"
+                required
+                type="text"
+              />
+            </div>
+            <div class="col-12">
+              <label for="subject" class="form-label">
+                Subject <span class="text-red-500">*</span>
+              </label>
+              <input
+                id="subject"
+                name="subject"
+                class="form-input"
+                placeholder="Your Company Name"
+                required
+                type="text"
+              />
+            </div>
+            <div class="col-12">
+              <label for="message" class="form-label">
+                Write Message <span class="text-red-500">*</span>
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                class="form-input"
+                placeholder="Write Your Message Here"
+                required
+                rows="3">
+              </textarea>
+            </div>
+            <div class="col-12">
+              <button type="submit" class="btn btn-regular">
+                Send Message
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

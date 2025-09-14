@@ -1,0 +1,169 @@
+---
+import ImageMod from "@/components/ImageMod.astro";
+import Logo from "@/components/Logo.astro";
+import config from "@/config/config.json";
+import menu from "@/config/menu.json";
+import DynamicIcon from "@/helpers/DynamicIcon";
+import HomeBanner from "./HomeBanner.astro";
+
+export interface ChildNavigationLink {
+  name: string;
+  url: string;
+}
+
+export interface NavigationLink {
+  name: string;
+  url: string;
+  hasChildren?: boolean;
+  children?: ChildNavigationLink[];
+}
+
+const { banner, errorPage } = Astro.props;
+
+const { main }: { main: NavigationLink[] } = menu;
+const { navigation_button } = config;
+const { pathname } = Astro.url;
+---
+
+<div
+  class={`header-wrapper ${Astro.url.pathname === "/" ? "relative" : !errorPage && "pb-6"}`}>
+  <header class="header relative">
+    <nav class="navbar container relative z-10">
+      <!-- logo -->
+      <div class="order-0">
+        <Logo />
+      </div>
+      <!-- navbar toggler -->
+      <input id="nav-toggle" type="checkbox" class="hidden" />
+      <label
+        for="nav-toggle"
+        class="order-3 flex cursor-pointer items-center text-text-dark lg:order-1 lg:hidden">
+        <svg
+          id="show-button"
+          class="block h-6 fill-current"
+          viewBox="0 0 20 20">
+          <title>Menu Open</title>
+          <path d="M0 3h20v2H0V3z m0 6h20v2H0V9z m0 6h20v2H0V0z"></path>
+        </svg>
+        <svg
+          id="hide-button"
+          class="hidden h-6 fill-current"
+          viewBox="0 0 20 20">
+          <title>Menu Close</title>
+          <polygon
+            points="11 9 22 9 22 11 11 11 11 22 9 22 9 11 -2 11 -2 9 9 9 9 -2 11 -2"
+            transform="rotate(45 10 10)">
+          </polygon>
+        </svg>
+      </label>
+      <!-- /navbar toggler -->
+      <ul
+        id="nav-menu"
+        class="navbar-nav order-3 hidden pb-6 lg:order-1 lg:flex lg:w-auto lg:space-x-2 lg:pb-0 xl:space-x-8">
+        {
+          main.map((menu) => (
+            <>
+              {menu.hasChildren ? (
+                <li class="nav-item nav-dropdown group relative">
+                  <span
+                    class={`nav-link inline-flex items-center ${
+                      menu.children?.map(({ url }) => url).includes(pathname) ||
+                      menu.children
+                        ?.map(({ url }) => `${url}/`)
+                        .includes(pathname)
+                        ? "active"
+                        : ""
+                    }`}>
+                    {menu.name}
+                    <span class="arrow-icon">
+                      <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20">
+                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                      </svg>
+                    </span>
+                  </span>
+                  <ul class="nav-dropdown-list max-lg:hidden lg:invisible lg:absolute lg:translate-y-1 lg:opacity-0 lg:transition-all lg:duration-300 lg:group-hover:visible lg:group-hover:block lg:group-hover:translate-y-0 lg:group-hover:opacity-100">
+                    {menu.children?.map((child) => (
+                      <li class="nav-dropdown-item">
+                        <a
+                          href={child.url}
+                          aria-label={child.name}
+                          class={`nav-dropdown-link block ${
+                            (pathname === `${child.url}/` ||
+                              pathname === child.url) &&
+                            "active"
+                          }`}>
+                          {child.name}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ) : (
+                <li class="nav-item">
+                  <a
+                    href={menu.url}
+                    class={`nav-link block ${
+                      (pathname === `${menu.url}/` || pathname === menu.url) &&
+                      "active"
+                    }`}>
+                    {menu.name}
+                  </a>
+                </li>
+              )}
+            </>
+          ))
+        }
+        {
+          navigation_button.enable && (
+            <a
+              class="btn btn-dark mt-2 lg:hidden"
+              href={navigation_button.link}>
+              {navigation_button.label}
+              <span class="icon-wrapper">
+                <span class="icon">
+                  <DynamicIcon icon={"FaArrowRight"} />
+                </span>
+                <span class="icon" aria-hidden="true">
+                  <DynamicIcon icon={"FaArrowRight"} />
+                </span>
+              </span>
+            </a>
+          )
+        }
+      </ul>
+      <div class="order-1 ml-auto flex items-center md:order-2 lg:ml-0">
+        {
+          navigation_button.enable && (
+            <a
+              class="btn btn-dark hidden lg:flex"
+              href={navigation_button.link}>
+              {navigation_button.label}
+              <span class="icon-wrapper">
+                <span class="icon">
+                  <DynamicIcon icon={"FaArrowRight"} />
+                </span>
+                <span class="icon" aria-hidden="true">
+                  <DynamicIcon icon={"FaArrowRight"} />
+                </span>
+              </span>
+            </a>
+          )
+        }
+      </div>
+    </nav>
+  </header>
+
+  {/* Show Only In Home Page */}
+  {banner && <HomeBanner />}
+
+  <div aria-hidden="true">
+    <ImageMod
+      class="pointer-events-none absolute top-0 -z-10 h-full w-full object-cover object-top"
+      src={Astro.url.pathname === "/"
+        ? "/images/banner-bg.png"
+        : "/images/page-header.png"}
+      alt="header image"
+      format="webp"
+    />
+  </div>
+</div>

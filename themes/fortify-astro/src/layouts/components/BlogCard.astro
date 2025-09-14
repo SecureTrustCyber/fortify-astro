@@ -1,0 +1,76 @@
+---
+import config from "@/config/config.json";
+import DynamicIcon from "@/helpers/DynamicIcon";
+import dateFormat from "@/lib/utils/dateFormat";
+import { plainify } from "@/lib/utils/textConverter";
+import ImageMod from "./ImageMod.astro";
+
+const { summary_length, blog_folder } = config.settings;
+
+const {
+  cardLayout,
+  content: { data, id, body },
+} = Astro.props;
+
+const { title, image, date } = data;
+---
+
+<div class="bg-body">
+  {
+    image && (
+      <div class="relative flex items-center justify-center">
+        <ImageMod
+          class={`${cardLayout === "creative" ? "absolute h-[80%] w-[90%] md:h-[70%] md:w-[82%]" : "h-[300px]"} mb-6 rounded-3xl object-cover`}
+          src={image}
+          alt={title}
+          format="webp"
+        />
+        {cardLayout === "creative" && (
+          <ImageMod
+            class="mb-6 h-[300px] w-full rounded-3xl object-cover md:h-[400px]"
+            src="/images/blog-card-bg.png"
+            alt={"pattern"}
+            format="webp"
+          />
+        )}
+      </div>
+    )
+  }
+  {
+    date && (
+      <div class="mb-4 flex items-center gap-x-2">
+        <ImageMod
+          class="w-5"
+          src="/images/icons/png/date.png"
+          alt="date icon"
+        />
+        <p class="inline-block font-medium text-tertiary">
+          {dateFormat(date, "iiii, MMM dd, yyyy")}
+        </p>
+      </div>
+    )
+  }
+  {
+    title && (
+      <h3 class="h5 mb-3">
+        <a href={`/${blog_folder}/${id}/`}>{title}</a>
+      </h3>
+    )
+  }
+  {
+    body && (
+      <p class="mb-6">{plainify(body?.slice(0, Number(summary_length)))}</p>
+    )
+  }
+  <a class="btn btn-text" href={`/${blog_folder}/${id}/`}>
+    Read More
+    <div class="icon-wrapper">
+      <span class="icon">
+        <DynamicIcon className="w-4" icon={"FaArrowRight"} />
+      </span>
+      <span class="icon" aria-hidden="true">
+        <DynamicIcon className="w-4" icon={"FaArrowRight"} />
+      </span>
+    </div>
+  </a>
+</div>

@@ -1,0 +1,23 @@
+---
+import Base from "@/layouts/Base.astro";
+import Clients from "@/partials/Clients.astro";
+import HowItWorks from "@/partials/HowItWorks.astro";
+import FeaturesGrid from "@/partials/FeaturesGrid.astro";
+import Features from "@/partials/FeatureSection.astro";
+import FeaturesExplanation from "@/partials/FeaturesExplanation.astro";
+import PricingSection from "@/partials/PricingSection.astro";
+import Testimonial from "@/partials/Testimonial.astro";
+import CallToAction from "@/partials/CallToAction.astro";
+---
+
+<Base>
+  {/* Home Page Banner Located in `Header.astro` file */}
+  <Clients />
+  <HowItWorks />
+  <FeaturesGrid />
+  <Features />
+  <FeaturesExplanation />
+  <PricingSection />
+  <Testimonial visible_testimonial={3} />
+  <CallToAction />
+</Base>

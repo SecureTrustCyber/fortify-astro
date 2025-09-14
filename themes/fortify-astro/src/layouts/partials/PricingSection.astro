@@ -1,0 +1,232 @@
+---
+import DynamicIcon from "@/helpers/DynamicIcon";
+import { markdownify } from "@/lib/utils/textConverter";
+import type { CollectionEntry } from "astro:content";
+import { getEntry } from "astro:content";
+
+const { largeHeading, content } = Astro.props;
+
+let { title, subtitle, description, plans, plans_labels } = (
+  (await getEntry(
+    "pricingSection",
+    "pricing"
+  )) as CollectionEntry<"pricingSection">
+).data;
+
+// Override default blog data (Title, Subtitle & Description) with props if provided
+if (content) {
+  ({ title, subtitle, description } = content);
+}
+---
+
+<section class="section">
+  <div class="container">
+    <div class="row">
+      <div class="mx-auto text-center lg:col-8" data-aos="fade-up-sm">
+        {
+          subtitle && (
+            <p
+              class="mb-2 font-medium text-tertiary"
+              set:html={markdownify(subtitle)}
+            />
+          )
+        }
+        {
+          title &&
+            (largeHeading ? (
+              <h1 class="h2 mb-6" set:html={markdownify(title)} />
+            ) : (
+              <h2 class="mb-6" set:html={markdownify(title)} />
+            ))
+        }
+        {
+          description && (
+            <p class="text-lg/[inherit]" set:html={markdownify(description)} />
+          )
+        }
+      </div>
+      <div class="col-12 pt-20">
+        <div class="row gx-2">
+          <div class="col-12 pb-10" data-aos="fade-up-sm" data-aos-delay="200">
+            <div class="flex items-center justify-center gap-x-3">
+              {
+                plans_labels.map((plan, index) => (
+                  <span
+                    class={`select-none font-medium ${index === 0 ? "order-0" : "order-3"}`}
+                    set:html={markdownify(plan)}
+                  />
+                ))
+              }
+              <label
+                class="relative inline-block h-8 w-16 cursor-pointer order-1 rounded-full bg-text-dark/10">
+                <span class="sr-only">Pricing Switcher</span>
+                <input
+                  type="checkbox"
+                  id="checkbox"
+                  class="pricing-check peer w-full cursor-pointer opacity-0"
+                />
+                <span
+                  class="absolute left-0 top-0 cursor-pointer before:absolute before:left-1 before:top-1 before:h-6 before:w-6 before:translate-x-0 before:rounded-full before:bg-tertiary before:transition-all before:delay-75 before:duration-300 peer-checked:before:translate-x-8">
+                </span>
+              </label>
+            </div>
+          </div>
+
+          {
+            plans?.map((item, index) => (
+              <div
+                class="md:col-6"
+                data-aos="fade-up-sm"
+                data-aos-delay={200 + index * 150}>
+                <div
+                  class={`${(index + 1) % 2 === 0 ? "has-dark-bg bg-text-dark text-text-light" : "bg-light"} group mb-12 flex min-h-full flex-col items-start gap-8 rounded-xl px-8 py-12 last:mb-0 md:gap-12 md:rounded-3xl md:px-11`}>
+                  <div class="flex flex-wrap items-center gap-4">
+                    {item.title && (
+                      <h3 class="counter h5 group-[.has-dark-bg]:text-text-light">
+                        <span>{markdownify(item.title)}</span>
+                      </h3>
+                    )}
+                    {item.badge?.enable && (
+                      <span
+                        class="rounded-full bg-secondary px-5 py-1.5 font-medium text-text-dark"
+                        set:html={markdownify(item.badge.label)}
+                      />
+                    )}
+                  </div>
+                  {item.description && (
+                    <p
+                      class="text-lg/[inherit]"
+                      set:html={markdownify(item.description)}
+                    />
+                  )}
+                  <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
+                    {item.price_monthly && item.price_yearly && (
+                      <strong class="h2 group-[.has-dark-bg]:text-text-light">
+                        {markdownify(item.price_prefix)}
+                        <span
+                          class="data-count"
+                          data-count-yearly={item.price_yearly}
+                          data-count-monthly={item.price_monthly}
+                          set:html={markdownify(item.price_monthly)}
+                        />
+                      </strong>
+                    )}
+                    {item.price_description_monthly &&
+                      item.price_description_yearly && (
+                        <>
+                          <span
+                            class="text-monthly text-lg/[inherit] group-[.has-dark-bg]:text-text-light"
+                            set:html={markdownify(
+                              item.price_description_monthly
+                            )}
+                          />
+                          <span
+                            class="text-yearly hidden text-lg/[inherit] group-[.has-dark-bg]:text-text-light"
+                            set:html={markdownify(
+                              item.price_description_yearly
+                            )}
+                          />
+                        </>
+                      )}
+                  </div>
+                  {item.features && (
+                    <ul class="list list-tertiary">
+                      {item.features.map((feature) => (
+                        <li
+                          class="mb-2 text-lg/[inherit]"
+                          set:html={markdownify(feature)}
+                        />
+                      ))}
+                    </ul>
+                  )}
+
+                  {item.button && item.button.enable && (
+                    <a
+                      class={`${(index + 1) % 2 === 0 ? "btn-light hover:bg-slate-600" : "btn-dark"} btn`}
+                      href={item.button.link}>
+                      {item.button.label}
+                      <span class="icon-wrapper">
+                        <span class="icon">
+                          <DynamicIcon icon={"FaArrowRight"} />
+                        </span>
+                        <span class="icon" aria-hidden="true">
+                          <DynamicIcon icon={"FaArrowRight"} />
+                        </span>
+                      </span>
+                    </a>
+                  )}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function pricingInit() {
+    // Select the toggle switch element
+    const toggleSwitch =
+      document.querySelector<HTMLInputElement>(".pricing-check");
+    const numbers = document.querySelectorAll<HTMLDivElement>(".data-count");
+    toggleSwitch &&
+      toggleSwitch.addEventListener("change", function () {
+        if (toggleSwitch.checked) {
+          numbers.forEach(function (number) {
+            const yearlyCount = number.getAttribute("data-count-yearly");
+            if (yearlyCount) {
+              number.innerHTML = yearlyCount;
+              animateCounter(number, parseInt(yearlyCount, 10));
+            }
+          });
+          toggleVisibility(".text-yearly", "d-block", "hidden");
+          toggleVisibility(".text-monthly", "hidden", "d-block");
+        } else {
+          numbers.forEach(function (number) {
+            const monthlyCount = number.getAttribute("data-count-monthly");
+            if (monthlyCount) {
+              number.innerHTML = monthlyCount;
+              animateCounter(number, parseInt(monthlyCount, 10));
+            }
+          });
+          toggleVisibility(".text-monthly", "d-block", "hidden");
+          toggleVisibility(".text-yearly", "hidden", "d-block");
+        }
+      });
+
+    function animateCounter(element: HTMLElement, endValue: number) {
+      let startValue = 0;
+      const duration = 250;
+      let startTime: number | null = null;
+
+      function step(currentTime: number) {
+        if (!startTime) startTime = currentTime;
+        const progress = currentTime - startTime;
+        const value =
+          Math.min(progress / duration, 1) * (endValue - startValue) +
+          startValue;
+        element.innerHTML = Math.ceil(value).toString();
+        if (progress < duration) {
+          requestAnimationFrame(step);
+        }
+      }
+
+      requestAnimationFrame(step);
+    }
+
+    function toggleVisibility(
+      selector: string,
+      addClass: string,
+      removeClass: string
+    ) {
+      const elements = document.querySelectorAll<HTMLElement>(selector);
+      elements.forEach(function (element) {
+        element.classList.add(addClass);
+        element.classList.remove(removeClass);
+      });
+    }
+  }
+  document.addEventListener("astro:page-load", pricingInit);
+</script>

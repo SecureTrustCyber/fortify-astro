@@ -1,0 +1,36 @@
+---
+import Pagination from "@/components/Pagination.astro";
+import config from "@/config/config.json";
+import Base from "@/layouts/Base.astro";
+import { getSinglePage } from "@/lib/contentParser.astro";
+import BlogSection from "@/partials/BlogSection.astro";
+import CallToAction from "@/partials/CallToAction.astro";
+import type { CollectionEntry } from "astro:content";
+import { getEntry } from "astro:content";
+
+const BLOG_FOLDER = "blog";
+
+const postIndex = (await getEntry(
+  BLOG_FOLDER,
+  "-index"
+)) as CollectionEntry<"blog">;
+const headingContent = postIndex.data.hero;
+const posts = await getSinglePage(BLOG_FOLDER);
+const totalPages: number = Math.ceil(posts.length / config.settings.pagination);
+---
+
+<Base
+  title={postIndex.data.title}
+  meta_title={postIndex.data.meta_title}
+  image={postIndex.data.image}
+  description={postIndex.data.description}>
+  <BlogSection
+    largeHeading={true}
+    content={headingContent}
+    visiblePosts={2}
+    cardLayout="creative"
+  />
+  <BlogSection visiblePosts={3} />
+  <Pagination section={BLOG_FOLDER} totalPages={totalPages} />
+  <CallToAction />
+</Base>

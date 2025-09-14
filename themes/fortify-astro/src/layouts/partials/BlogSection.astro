@@ -1,0 +1,73 @@
+---
+import BlogCard from "@/components/BlogCard.astro";
+import { getSinglePage } from "@/lib/contentParser.astro";
+import { sortByDate } from "@/lib/utils/sortFunctions";
+import { markdownify } from "@/lib/utils/textConverter";
+import type { CollectionEntry } from "astro:content";
+import { getEntry } from "astro:content";
+
+let { content, largeHeading, visiblePosts, posts, cardLayout } = Astro.props;
+
+// Get default blog data from the "sections" content collection
+let { title, subtitle, description } = (
+  (await getEntry("blogSection", "blog")) as CollectionEntry<"blogSection">
+).data;
+
+// Override default blog data (Title, Subtitle & Description) with props if provided
+if (content) {
+  ({ title, subtitle, description } = content);
+}
+
+// Constant for blog folder path
+const BLOG_FOLDER = "blog";
+
+// Get all blog posts from the specified folder if no posts are passed as props
+posts = posts ? posts : await getSinglePage(BLOG_FOLDER);
+
+// Sort blog posts by date in descending order
+let sortedPosts = sortByDate(posts);
+
+// Limit the number of posts to display if specified
+visiblePosts && (sortedPosts = sortedPosts.slice(0, visiblePosts));
+---
+
+{
+  (
+    <section class="section overflow-hidden">
+      <div class="container">
+        <div class="row">
+          <div class="mx-auto text-center lg:col-10" data-aos="fade-up-sm">
+            {subtitle && (
+              <p
+                class="mb-2 font-medium text-tertiary"
+                set:html={markdownify(subtitle)}
+              />
+            )}
+            {title &&
+              (largeHeading ? (
+                <h1 class="h2 md:h1 mb-6" set:html={markdownify(title)} />
+              ) : (
+                <h2 class="mb-6" set:html={markdownify(title)} />
+              ))}
+            {description && (
+              <p
+                class="text-lg/[inherit]"
+                set:html={markdownify(description)}
+              />
+            )}
+          </div>
+          <div class="col-12 pt-20" data-aos="fade-up-sm" data-aos-delay="200">
+            <div class="row gx-4 gy-5 justify-center md:gx-5">
+              {sortedPosts?.map((blog) => (
+                <div
+                  class={` ${cardLayout === "creative" ? "md:col-6" : "md:col-6 lg:col-4"}`}>
+                  {blog && <BlogCard cardLayout={cardLayout} content={blog} />}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}

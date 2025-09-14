@@ -1,0 +1,81 @@
+.header {
+  @apply pt-6 pb-5;
+
+  /* navbar items */
+  .navbar {
+    @apply relative flex flex-wrap items-center lg:justify-between;
+  }
+}
+
+/* Navbar Toggler */
+.navbar-toggler {
+  @apply border-border/75 cursor-pointer rounded border-2 p-1 lg:hidden;
+}
+
+.navbar-brand {
+  @apply text-text-dark text-xl;
+  img {
+    @apply max-h-full max-w-full;
+  }
+}
+
+.navbar {
+  @apply justify-start sm:justify-end;
+}
+.navbar-nav {
+  @apply border-border text-center lg:text-left;
+  @apply max-lg:border-text-dark max-lg:custom-shadow w-[calc(100%_-_25px)] max-lg:absolute max-lg:top-full max-lg:z-10 max-lg:mt-5 max-lg:rounded-2xl max-lg:bg-white max-lg:px-4 max-lg:py-6 sm:w-[300px];
+
+  .nav-item {
+    &:hover .nav-link:not(.dropdown-toggle) {
+      @apply hover:after:w-4;
+    }
+
+    .nav-link {
+      @apply text-text hover:text-tertiary relative block px-3 py-2 font-medium transition after:w-0 lg:px-2 lg:py-3;
+
+      .arrow-icon {
+        @apply relative -z-10 inline-block align-[-2px] text-xs/snug transition-transform duration-300;
+      }
+    }
+  }
+}
+
+.nav-dropdown {
+  @apply mr-0;
+
+  .nav-link {
+    @apply cursor-pointer select-none;
+  }
+
+  .nav-dropdown-list {
+    @apply bg-body custom-shadow mx-auto max-w-[250px] min-w-[200px] rounded p-3 lg:border;
+
+    .nav-dropdown-link {
+      @apply text-text-dark/70 hover:bg-tertiary/5 hover:text-tertiary block rounded px-3 py-1.5 font-medium transition;
+    }
+  }
+
+  /* For Large Devices (Dropdown Arrow Icon) */
+  &:hover .nav-link .arrow-icon {
+    @apply lg:rotate-180 lg:transform;
+  }
+
+  /* For Small Devices */
+  &.active {
+    /* Dropdown Arrow Icon */
+    .nav-link {
+      .arrow-icon {
+        @apply max-lg:rotate-180 max-lg:transform;
+      }
+      .icon {
+        @apply max-lg:rotate-180;
+      }
+    }
+
+    /* Show Dropdown Menu On Click */
+    .nav-dropdown-list {
+      @apply max-lg:block;
+    }
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "main": [
+    {
+      "name": "All Pages",
+      "url": "",
+      "hasChildren": true,
+      "children": [
+        {
+          "name": "Home",
+          "url": "/"
+        },
+        {
+          "name": "About",
+          "url": "/about/"
+        },
+        {
+          "name": "Integration",
+          "url": "/integration/"
+        },
+        {
+          "name": "Changelog",
+          "url": "/changelog/"
+        },
+        {
+          "name": "Blog",
+          "url": "/blog/"
+        },
+        {
+          "name": "Blog Details",
+          "url": "/blog/post-1/"
+        },
+        {
+          "name": "Review",
+          "url": "/review/"
+        },
+        {
+          "name": "Privacy Policy",
+          "url": "/privacy-policy/"
+        },
+        {
+          "name": "Terms & Conditions",
+          "url": "/terms-conditions/"
+        },
+        {
+          "name": "404",
+          "url": "/404/"
+        }
+      ]
+    },
+    {
+      "name": "Features",
+      "url": "/features/"
+    },
+    {
+      "name": "Pricing",
+      "url": "/pricing/"
+    },
+    {
+      "name": "Contact",
+      "url": "/contact/"
+    }
+  ],
+  "footer_menu": [
+    {
+      "name": "Features",
+      "url": "/features/"
+    },
+    {
+      "name": "Pricing",
+      "url": "/pricing/"
+    },
+    {
+      "name": "Blog",
+      "url": "/blog/"
+    }
+  ],
+  "footer_quick_links": [
+    {
+      "name": "Terms",
+      "url": "/terms-conditions/"
+    },
+    {
+      "name": "Privacy Policy",
+      "url": "/privacy-policy/"
+    },
+    {
+      "name": "Contact",
+      "url": "/contact/"
+    }
+  ]
+}

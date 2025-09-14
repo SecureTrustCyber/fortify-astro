@@ -1,0 +1,29 @@
+---
+import Base from "@/layouts/Base.astro";
+import CallToAction from "@/partials/CallToAction.astro";
+import Clients from "@/partials/Clients.astro";
+import Faq from "@/partials/Faq.astro";
+import PricingSection from "@/partials/PricingSection.astro";
+import Testimonial from "@/partials/Testimonial.astro";
+import type { CollectionEntry } from "astro:content";
+import { getEntry } from "astro:content";
+
+const pricing = (await getEntry(
+  "pricing",
+  "-index"
+)) as CollectionEntry<"pricing">;
+const { title, description, meta_title, image, testimonial, hero } =
+  pricing.data;
+---
+
+<Base
+  title={title}
+  meta_title={meta_title}
+  description={description}
+  image={image}>
+  <PricingSection largeHeading={true} content={hero} />
+  <Clients />
+  <Testimonial content={testimonial} visible_testimonial={3} />
+  <Faq />
+  <CallToAction />
+</Base>

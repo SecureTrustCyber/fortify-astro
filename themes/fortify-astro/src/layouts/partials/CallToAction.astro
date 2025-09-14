@@ -1,0 +1,65 @@
+---
+import ImageMod from "@/components/ImageMod.astro";
+import DynamicIcon from "@/helpers/DynamicIcon";
+import { markdownify } from "@/lib/utils/textConverter";
+import type { CollectionEntry } from "astro:content";
+import { getEntry } from "astro:content";
+
+const { enable, title, description, image, button } = (
+  (await getEntry(
+    "ctaSection",
+    "call-to-action"
+  )) as CollectionEntry<"ctaSection">
+).data;
+---
+
+{
+  enable && (
+    <section class="section mb-14">
+      <div class="container">
+        <div class="bg-text-dark px-10 py-16 xl:p-20 rounded-[40px] relative overflow-hidden">
+          <div
+            class="absolute !top-1/2 !-translate-y-1/2 !left-1/2 !-translate-x-1/2 rotate-[7.83deg] pointer-events-none"
+            data-aos="fade-in"
+            data-aos-delay="200">
+            <ImageMod class=" h-[641px] w-auto " src={image} alt="cta-image" />
+          </div>
+          <div class="row items-center justify-center">
+            <div class="lg:col-8 text-center">
+              <h2
+                set:html={markdownify(title)}
+                class="text-text-light mb-4"
+                data-aos="fade-up-sm"
+              />
+              <p
+                set:html={markdownify(description)}
+                class="text-text-light text-lg/[inherit] mb-6"
+                data-aos="fade-up-sm"
+                data-aos-delay="50"
+              />
+              {button.enable && (
+                <a
+                  class="btn btn-primary-light"
+                  href={button.link}
+                  target={button.link.startsWith("http") ? "_blank" : "_self"}
+                  rel="noopener"
+                  data-aos="fade-up-sm"
+                  data-aos-delay="200">
+                  {button.label}
+                  <span class="icon-wrapper">
+                    <span class="icon">
+                      <DynamicIcon icon={"FaArrowRight"} />
+                    </span>
+                    <span class="icon" aria-hidden="true">
+                      <DynamicIcon icon={"FaArrowRight"} />
+                    </span>
+                  </span>
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}

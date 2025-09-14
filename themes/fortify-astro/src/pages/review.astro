@@ -1,0 +1,22 @@
+---
+import Base from "@/layouts/Base.astro";
+import CallToAction from "@/partials/CallToAction.astro";
+import Testimonial from "@/partials/Testimonial.astro";
+import type { CollectionEntry } from "astro:content";
+import { getEntry } from "astro:content";
+
+const review = (await getEntry(
+  "review",
+  "-index"
+)) as CollectionEntry<"review">;
+const { title, description, meta_title, image, testimonial } = review.data;
+---
+
+<Base
+  title={title}
+  meta_title={meta_title}
+  description={description}
+  image={image}>
+  <Testimonial largeHeading={true} content={testimonial} />
+  <CallToAction />
+</Base>
