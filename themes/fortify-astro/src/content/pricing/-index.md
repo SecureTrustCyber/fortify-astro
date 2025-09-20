@@ -11,6 +11,6 @@ hero:
 
 testimonial:
   subtitle: "Testimonials"
-  title: Satisfied Customers of Fortify
+  title: Satisfied Customers of SecureTrustCyber
   description: Your Trusted Partner in Data Protection with Cutting-Edge Solutions for <br> Comprehensive Data Security.
 ---
