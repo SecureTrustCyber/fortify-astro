@@ -7,6 +7,13 @@ import social from "@/config/social.json";
 import { markdownify } from "@/lib/utils/textConverter";
 
 const { footer_menu, footer_quick_links } = menu;
+
+// Function to replace {year} this from string to year
+function replaceYear(text: string) {
+  const year = new Date().getFullYear();
+
+  return text.replace("{year}", year.toString());
+}
 ---
 
 <footer class="bg-light py-16 xl:py-28">
@@ -107,7 +114,7 @@ const { footer_menu, footer_quick_links } = menu;
             {config.params.copyright && (
               <div
                 class="mt-5 lg:mt-14"
-                set:html={markdownify(config.params.copyright)}
+                set:html={markdownify(replaceYear(config.params.copyright))}
               />
             )}
           </div>

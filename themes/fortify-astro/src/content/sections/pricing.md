@@ -15,11 +15,21 @@ plans:
     price_description_monthly: "per month, billed monthly"
     price_description_yearly: "per month, billed yearly"
     features:
-      - Basic Threat Detection
-      - Basic Alerts & Reporting
-      - Daily Data Backup
-      - Email Support
-      - Single User License
+      - "Threat Prevention"
+      - "Firewall-as-a-Service (FWaaS)"
+      - "Secure Web Gateway (SWG)"
+      - "Intrusion Prevention System (IPS)"
+      - "Malware Prevention"
+      - "DNS Security (DNS)"
+      - "Remote Browser Isolation (RBI)"
+      - "Data and App Protection"
+      - "Cloud Access Security Broker (CASB)"
+      - "Data Loss Prevention (DLP)"
+      - "Zero Trust Network Access (ZTNA)"
+      - "AI Security (AISEC)"
+      - "Detection and Response"
+      - "Extended Detection and Response (XDR)"
+      - "Endpoint Protection (EPP/EDR)"
     badge:
       enable: false
       label: "Recommended"

@@ -1,6 +1,6 @@
 ---
 subtitle: "How it Works"
-title: "How SecureTrustCyber Security Solution Works"
+title: "How Fortify Security Solution Works"
 description: Your Trusted Partner in Data Protection with Cutting-Edge Solutions for <br> Comprehensive Data Security.
 list:
   - icon: "/images/icons/svg/detection.svg" # get outline svg icons from here - https://www.svgrepo.com/vectors/security/outlined/

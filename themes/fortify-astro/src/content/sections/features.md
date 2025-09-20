@@ -1,6 +1,6 @@
 ---
 subtitle: "Essential Feature"
-title: "Discover the Features That Makes SecureTrustCyber Stand Out."
+title: "Discover the Features That Makes Fortify Stand Out."
 description: "Your Trusted Partner in Data Protection with Cutting-Edge Solutions for <br> Comprehensive Data Security."
 list:
   - title: "Organize and understand data"
