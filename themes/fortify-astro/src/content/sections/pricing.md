@@ -20,7 +20,6 @@ plans:
       - "Intrusion Prevention System (IPS)"
       - "DNS Security (DNS)"
       - "Remote Browser Isolation (RBI)"
-      - "Data and App Protection"
       - "Cloud Access Security Broker (CASB)"
       - "Data Loss Prevention (DLP)"
       - "Zero Trust Network Access (ZTNA)"
