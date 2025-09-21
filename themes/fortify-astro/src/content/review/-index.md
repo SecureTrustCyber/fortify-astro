@@ -6,6 +6,6 @@ draft: false
 
 testimonial:
   subtitle: "Reviews"
-  title: Testimonials from Satisfied Customers of Fortify
+  title: Testimonials from Satisfied Customers of SecureTrustCyber
   description: Your Trusted Partner in Data Protection with Cutting-Edge Solutions for <br> Comprehensive Data Security.
 ---
