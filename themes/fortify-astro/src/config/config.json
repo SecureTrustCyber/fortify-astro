@@ -5,7 +5,7 @@
     "base_path": "/",
     "trailing_slash": true,
     "favicon": "/images/favicon.png",
-    "logo": "/images/logo.svg",
+    "logo": "/images/ztx-logo-wrapper.svg",
     "logo_width": "134",
     "logo_height": "47",
     "logo_text": "SecureTrustCyber"
